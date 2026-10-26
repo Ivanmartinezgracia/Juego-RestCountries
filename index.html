@@ -1,13 +1,286 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>restcountries-game</title>
+    <meta
+      name="description"
+      content="RestContinents: un juego de geografía con banderas, capitales y pistas sobre países del mundo."
+    />
+    <meta name="theme-color" content="#f5f0e6" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://flagcdn.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>RestContinents · El juego de geografía</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="RestContinents, volver al inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M3.8 12h16.4M12 3.5c2.4 2.3 3.6 5.2 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.2-3.6-8.5S9.6 5.8 12 3.5Z" />
+            </svg>
+          </span>
+          <span class="brand-name">Rest<em>Continents</em></span>
+        </a>
+
+        <span class="topbar-note">
+          <span class="live-dot" aria-hidden="true"></span>
+          250 países · 3 modos · 10 rondas
+        </span>
+      </header>
+
+      <main class="app">
+        <section id="menu" class="screen menu">
+          <div class="hero">
+            <span class="eyebrow">Juego de geografía</span>
+            <h1>Juego de banderas y <span class="accent">países</span>.</h1>
+            <div class="hero-facts">
+              <div class="fact">
+                <strong>10</strong>
+                <span>rondas</span>
+              </div>
+              <span class="fact-line" aria-hidden="true"></span>
+              <div class="fact">
+                <strong>3</strong>
+                <span>modos</span>
+              </div>
+              <span class="fact-line" aria-hidden="true"></span>
+              <div class="fact">
+                <strong>1</strong>
+                <span>punto por acierto</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="play-card">
+            <div class="card-head">
+              <div>
+                <span class="card-kicker">Modo de juego</span>
+                <h2>Elige un modo</h2>
+              </div>
+
+            </div>
+
+            <fieldset id="modos" class="modes">
+              <legend class="sr-only">Modo de juego</legend>
+
+              <label class="mode mode--flag is-selected">
+                <input type="radio" name="modo" value="bandera" checked />
+                <span class="mode-number" aria-hidden="true">01</span>
+                <span class="mode-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 21V4m0 0h10.5l-1.8 3.8L16.5 12H6" />
+                  </svg>
+                </span>
+                <span class="mode-copy">
+                  <span class="mode-title">Adivina la bandera</span>
+                  <span class="mode-desc">
+                    Adivina el país por su bandera.
+                  </span>
+                </span>
+                <span class="mode-select" aria-hidden="true">
+                  <span class="mode-dot"></span>
+                </span>
+              </label>
+
+              <label class="mode mode--capital">
+                <input type="radio" name="modo" value="capital" />
+                <span class="mode-number" aria-hidden="true">02</span>
+                <span class="mode-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 21h16M6 21V10l6-4.5 6 4.5v11M10 21v-5h4v5" />
+                    <path d="M12 3v2" />
+                  </svg>
+                </span>
+                <span class="mode-copy">
+                  <span class="mode-title">Adivina la capital</span>
+                  <span class="mode-desc">
+                    Elige la capital del país.
+                  </span>
+                </span>
+                <span class="mode-select" aria-hidden="true">
+                  <span class="mode-dot"></span>
+                </span>
+              </label>
+
+              <label class="mode mode--clues">
+                <input type="radio" name="modo" value="pistas" />
+                <span class="mode-number" aria-hidden="true">03</span>
+                <span class="mode-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="10.5" cy="10.5" r="6.5" />
+                    <path d="m19.5 19.5-4.2-4.2M8 10.5h5" />
+                  </svg>
+                </span>
+                <span class="mode-copy">
+                  <span class="mode-title">¿Qué país es?</span>
+                  <span class="mode-desc">
+                    Adivina el país con las pistas.
+                  </span>
+                </span>
+                <span class="mode-select" aria-hidden="true">
+                  <span class="mode-dot"></span>
+                </span>
+              </label>
+            </fieldset>
+
+            <p id="estado" class="status" role="status" aria-live="polite" hidden></p>
+
+            <div class="cta-row">
+              <button type="button" id="empezar" class="btn btn-primary">
+                <span id="empezar-texto">Empezar la partida</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </button>
+              <button type="button" id="reintentar" class="btn btn-primary" hidden>
+                Reintentar
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="juego" class="screen game" hidden>
+          <div class="game-bar">
+            <button type="button" id="salir" class="btn-ghost">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5m6 6-6-6 6-6" />
+              </svg>
+              Cambiar de modo
+            </button>
+
+            <div class="game-stats">
+              <span class="stat">
+                <span class="stat-label">Ronda</span>
+                <span id="ronda" class="stat-value">0/10</span>
+              </span>
+              <span class="stat">
+                <span class="stat-label">Puntos</span>
+                <span id="puntos" class="stat-value">0</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="game-card">
+            <div class="progress-wrap">
+              <div
+                id="progreso"
+                class="progress"
+                role="progressbar"
+                aria-label="Progreso de la partida"
+                aria-valuemin="0"
+                aria-valuemax="10"
+                aria-valuenow="0"
+              >
+                <span id="progreso-barra" class="progress-bar"></span>
+              </div>
+            </div>
+
+            <div class="game-head">
+              <span id="pregunta-kicker" class="kicker">Ronda 01 · Adivina la bandera</span>
+              <h2 id="pregunta">¿Qué país corresponde a esta bandera?</h2>
+            </div>
+
+            <div class="game-body">
+              <div class="visual-panel">
+                <div id="bandera-marco" class="postcard" hidden>
+                  <div class="postcard-tape" aria-hidden="true"></div>
+                  <div class="postcard-image">
+                    <img id="bandera" alt="Bandera del país que debes adivinar" />
+                  </div>
+                  <span class="postcard-caption">Bandera</span>
+                </div>
+
+                <div id="destino" class="ticket" hidden>
+                  <span class="ticket-kicker">Destino</span>
+                  <strong id="destino-pais"></strong>
+                  <span id="destino-codigo" class="ticket-code"></span>
+                  <span class="ticket-line" aria-hidden="true"></span>
+                  <span class="ticket-note">Capital</span>
+                </div>
+
+                <ul id="pistas" class="clues" hidden></ul>
+              </div>
+
+              <div class="answer-panel">
+                <div id="opciones" class="options"></div>
+                <p id="mensaje" class="message" aria-live="polite"></p>
+                <div class="answer-actions">
+                  <button type="button" id="siguiente" class="btn btn-primary" hidden>
+                    <span id="siguiente-texto">Siguiente</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="resumen" class="screen summary" hidden>
+          <div class="summary-card">
+            <div class="summary-top">
+              <span class="kicker">Tu resultado</span>
+            </div>
+
+            <div id="anillo" class="score-ring" style="--progreso: 0">
+              <div class="score-inner">
+                <span id="resultado-numero">0/10</span>
+                <span class="score-label">aciertos</span>
+              </div>
+            </div>
+
+            <h2 id="resumen-titulo">Partida terminada</h2>
+
+            <div class="summary-facts">
+              <div>
+                <span>Modo</span>
+                <strong id="resumen-modo">Bandera</strong>
+              </div>
+              <div>
+                <span>Aciertos</span>
+                <strong id="resumen-aciertos">0/10</strong>
+              </div>
+              <div>
+                <span>Precisión</span>
+                <strong id="resumen-precision">0%</strong>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="button" id="reiniciar" class="btn btn-primary">
+                Jugar otra vez
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+              </button>
+              <button type="button" id="cambiar-modo" class="btn btn-secondary">
+                Cambiar de modo
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Hecho por Iván M. y Osian S.</span>
+      </footer>
+    </div>
+
+    <script type="module" src="./app.js"></script>
   </body>
 </html>
